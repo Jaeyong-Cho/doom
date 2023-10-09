@@ -59,6 +59,9 @@
 (package! org-transclusion
   :recipe (:host github :repo "nobiot/org-transclusion"))
 
+(package! emacs-window-layout
+  :recipe (:host github :repo "kiwanami/emacs-window-layout"))
+
 (package! evil-god-state
   :recipe (:host github :repo "gridaphobe/evil-god-state"))
 

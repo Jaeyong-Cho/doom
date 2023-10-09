@@ -150,10 +150,11 @@
 (add-hook 'window-setup-hook #'toggle-frame-maximized)
 
 ;; org-roam
+(setq org-root '"/Volumes/T7_Touch/Memo/Org")
 (use-package org-roam
   :ensure t
   :custom
-  (org-roam-directory (file-truename "/Volumes/T7_Touch/Memo/Org"))
+  (org-roam-directory (file-truename org-root))
   :bind (("C-c n f" . org-roam-node-find)
          ("C-c n g" . org-roam-graph)
          ("C-c n i" . org-roam-node-insert)
@@ -162,11 +163,16 @@
          ("C-c n t" . org-roam-dailies-goto-today))
   :config
   (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (setq org-roam-capture-templates '(("d" "default" plain "%?"
+                                      :target (file+head "%<notes/%Y/%m/%d%H%M%S>-${slug}.org"
+                                                         "#+title: ${title}\n")
+                                      :unnarrowed t)))
   (setq org-roam-dailies-capture-templates
       '(("d" "default" entry
          "* %?"
          :target (file+head "%<%Y/%m/%d>.org"
                             "#+title: %<%Y-%m-%d>\n"))))
+  (setq org-roam-completion-everywhere t)
   (org-roam-db-autosync-mode)
   (require 'org-roam-protocol))
 
@@ -194,9 +200,9 @@
   :bind (("C-c n n" . org-capture)
          ("C-c n N" . org-capture-goto-target))
   :config
-  (setq org-agenda-files '("/Volumes/T7_Touch/Memo/Org")
+  (setq org-agenda-files '(org-root)
         org-return-follows-link t
-        org-directory "/Volumes/T7_Touch/Memo/Org"))
+        org-directory org-root))
 
 (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
 
