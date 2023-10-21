@@ -36,11 +36,11 @@
 
 (load-file "$HOME/.config/doom/theme/kanagawa-dragon-theme.el")
 (load-file "$HOME/.config/doom/theme/kanagawa-theme.el")
-(load-theme 'kanagawa t)
+(load-theme 'kanagawa-dragon t)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-type nil)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -165,13 +165,13 @@
   (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   (setq org-roam-capture-templates '(("d" "default" plain "%?"
                                       :target (file+head "%<notes/%Y/%m/%d%H%M%S>-${slug}.org"
-                                                         "#+title: ${title}\n")
+                                                         "#+title: ${title}\n\n* ${title}\n")
                                       :unnarrowed t)))
   (setq org-roam-dailies-capture-templates
       '(("d" "default" entry
          "* %?"
          :target (file+head "%<%Y/%m/%d>.org"
-                            "#+title: %<%Y-%m-%d>\n"))))
+                            "#+title: %<%Y-%m-%d>\n\n* Research\n\n* Keywords\n** Text\n** Paper\n\n* English\n** Word\n** Writing\n** Reading\n** Listening\n** Speaking\n"))))
   (setq org-roam-completion-everywhere t)
   (org-roam-db-autosync-mode)
   (require 'org-roam-protocol))
@@ -200,10 +200,14 @@
   :bind (("C-c n n" . org-capture)
          ("C-c n N" . org-capture-goto-target))
   :config
-  (setq org-agenda-files '(org-root)
-        org-return-follows-link t
-        org-directory org-root))
+  (custom-set-variables
+   '(org-agenda-files (list org-root)))
+  (setq org-return-follows-link t
+        org-directory org-root
+        org-babel-load-languages '(plantuml t)))
 
+(add-hook 'org-mode-hook '(lambda () (setq fill-column 100)))
+(add-hook 'org-mode-hook 'auto-fill-mode)
 (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
 
 (use-package! org-appear
@@ -223,3 +227,22 @@
   :after org
   :bind (("C-c n a a" . org-transclusion-add)
          ("C-c n a t" . org-transclusion-mode)))
+
+(use-package! centered-window-mode
+  :bind ("C-c m m" . centered-window-mode)
+  :config
+  (setq cwm-centered-window-width 150
+        cwm-frame-internal-border 0))
+
+(use-package! company
+  :config
+  (setq company-idle-delay 0))
+
+(use-package! lsp-grammarly
+  :hook (org-mode . (lambda () (require 'lsp-grammarly) (lsp))))
+
+(use-package! lsp-ui
+  :config
+  (setq lsp-ui-doc-enable t
+        lsp-ui-doc-position 'at-point
+        lsp-ui-doc-show-with-cursor t))

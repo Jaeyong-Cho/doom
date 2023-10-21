@@ -65,6 +65,15 @@
 (package! evil-god-state
   :recipe (:host github :repo "gridaphobe/evil-god-state"))
 
+(package! centered-window-mode
+  :recipe (:host github :repo "anler/centered-window-mode"))
+
+(package! lsp-grammarly
+  :recipe (:host github :repo "emacs-grammarly/lsp-grammarly"))
+
+(package! prescient
+  :recipe (:host github :repo "radian-software/prescient.el"))
+
 ;; If the package you are trying to install does not contain a PACKAGENAME.el
 ;; file, or is located in a subdirectory of the repo, you'll need to specify
 ;; `:files' in the `:recipe':
