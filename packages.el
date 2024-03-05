@@ -47,6 +47,9 @@
   :recipe (:host github :repo "org-roam/org-roam"))
 (package! org-roam-ui
   :recipe (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out")))
+(unpin! org-journal)
+(package! org-journal
+  :recipe (:host github :repo "bastibe/org-journal"))
 (package! websocket
   :recipe (:host github :repo "ahyatt/emacs-websocket"))
 (unpin! org-appear)
@@ -58,6 +61,12 @@
 (unpin! org-transclusion)
 (package! org-transclusion
   :recipe (:host github :repo "nobiot/org-transclusion"))
+(package! org-static-blog
+  :recipe (:host github :repo "bastibe/org-static-blog"))
+(package! ob-d2
+  :recipe (:host github :repo "xcapaldi/ob-d2"))
+(package! org-drill)
+(package! org-fc)
 
 (package! emacs-window-layout
   :recipe (:host github :repo "kiwanami/emacs-window-layout"))
@@ -73,6 +82,15 @@
 
 (package! prescient
   :recipe (:host github :repo "radian-software/prescient.el"))
+
+(package! emacs-refactor
+  :recipe (:host github :repo "Wilfred/emacs-refactor"))
+
+(package! perfect-margin
+  :recipe (:host github :repo "mpwang/perfect-margin"))
+
+(package! d2-mode
+  :recipe (:host github :repo "andorsk/d2-mode"))
 
 ;; If the package you are trying to install does not contain a PACKAGENAME.el
 ;; file, or is located in a subdirectory of the repo, you'll need to specify
