@@ -18,8 +18,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "JetbrainsMono Nerd Font" :size 12 :weight 'semi-light)
-     doom-variable-pitch-font (font-spec :family "JetbrainsMono Nerd Font" :size 12))
+(setq doom-font (font-spec :family "JetbrainsMono Nerd Font" :size 14 :weight 'semi-light)
+     doom-variable-pitch-font (font-spec :family "JetbrainsMono Nerd Font" :size 14))
 
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
@@ -32,6 +32,7 @@
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-one)
 
+(load-file "$HOME/.config/doom/theme/office-theme.el")
 (load-file "$HOME/.config/doom/theme/kanagawa-theme.el")
 (load-file "$HOME/.config/doom/theme/kanagawa-dragon-theme.el")
 (load-file "$HOME/.config/doom/theme/kanagawa-lotus-theme.el")
@@ -152,7 +153,7 @@
 (add-hook 'window-setup-hook #'toggle-frame-maximized)
 
 ;; org-roam
-(setq org-root '"/Volumes/T7_Touch/jaeyong/Memo/Org")
+(setq org-root '"/Users/jaeyong/Org")
 (use-package org-roam
   :ensure t
   :custom
@@ -166,13 +167,13 @@
   (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   (setq org-roam-capture-templates '(("d" "default" plain "%?"
                                       :target (file+head "%<notes/%Y/%m/%d%H%M%S>-${slug}.org"
-                                                         "#+title: ${title}\n#+filetags:\n\n* ${title}\n")
+                                                         "#+title: ${title}\n#+filetags:\n\n* ${title}\n\n * Todo\n- [[~/Org/Todo.org][Todo]]")
                                       :unnarrowed t)))
   (setq org-roam-dailies-capture-templates
       '(("d" "default" entry
          "* %?"
          :target (file+head "%<%Y/%m/%d>.org"
-                            "#+title: %<%Y-%m-%d>\n\n* Daily Todo\n\n* Pomo\n\n* Keywords\n** Text\n** Paper\n\n* English\n** Word\n** Writing\n** Reading\n** Listening\n** Speaking\n"))))
+                            "#+title: %<%Y-%m-%d>\n\n"))))
   (setq org-roam-completion-everywhere t)
   (org-roam-db-autosync-mode)
   (require 'org-roam-protocol))
@@ -207,12 +208,13 @@
   :after ob-d2
   :config
   (custom-set-variables
-   '(org-agenda-files (list org-root)))
+   '(org-agenda-files (concat org-root "/todo.org")))
   (setq org-return-follows-link t
         org-directory org-root
         org-babel-load-languages '(plantuml t)
         org-hide-emphasis-markers t
-        org-hide-block-startup t)
+        org-hide-block-startup t
+        org-agenda-inhibit-startup t)
   (org-babel-do-load-languages 'org-babel-load-languages '((d2 . t))))
 
 (add-hook 'org-mode-hook '(lambda () (setq fill-column 100)))
@@ -260,6 +262,7 @@
   (setq org-drill-learn-fraction 0.2))
 
 (use-package! org-fc
+  :after org
   :init
   (evil-define-minor-mode-key '(normal insert emacs) 'org-fc-review-flip-mode
     (kbd "RET") 'org-fc-review-flip
@@ -273,7 +276,7 @@
     (kbd "e") 'org-fc-review-rate-easy
     (kbd "s") 'org-fc-review-suspend-card
     (kbd "q") 'org-fc-review-quit)
-  :bind (("C-c f a" . org-fc-review-all)
+  :bind (("C-c f a" . org-fc-review)
          ("C-c f 0" . org-fc-review-rate-again)
          ("C-c f 1" . org-fc-review-rate-hard)
          ("C-c f 2" . org-fc-review-rate-good)
@@ -281,6 +284,12 @@
          ("C-c f f" . org-fc-review-flip)
          ("C-c f d" . org-fc-dashboard)
          ("C-c f t" . org-fc-type-normal-init)))
+
+(use-package! org-download
+  :config
+  (setq org-download-screenshot-method "screencapture -i %s")
+  :bind
+  (("C-c f y" . org-download-screenshot)))
 
 (use-package! company
   :config

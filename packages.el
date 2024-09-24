@@ -67,6 +67,7 @@
   :recipe (:host github :repo "xcapaldi/ob-d2"))
 (package! org-drill)
 (package! org-fc)
+(package! org-download)
 
 (package! emacs-window-layout
   :recipe (:host github :repo "kiwanami/emacs-window-layout"))
