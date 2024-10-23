@@ -18,8 +18,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "JetbrainsMono Nerd Font" :size 14 :weight 'semi-light)
-     doom-variable-pitch-font (font-spec :family "JetbrainsMono Nerd Font" :size 14))
+(setq doom-font (font-spec :family "JetbrainsMono Nerd Font" :size 16 :weight 'semi-light)
+     doom-variable-pitch-font (font-spec :family "JetbrainsMono Nerd Font" :size 16))
 
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
@@ -153,7 +153,7 @@
 (add-hook 'window-setup-hook #'toggle-frame-maximized)
 
 ;; org-roam
-(setq org-root '"/Users/jaeyong/Org")
+(setq org-root '"~/Org")
 (use-package org-roam
   :ensure t
   :custom
@@ -204,7 +204,19 @@
 (use-package! org
   :bind (("C-c n n" . org-capture)
          ("C-c n N" . org-capture-goto-target)
-         ("C-c n g" . org-tags-view))
+         ("C-c n g" . org-tags-view)
+         ("C-c n a a" . org-agenda)
+         ("C-c n a c" . org-agenda-goto-calendar)
+         ("C-c n a t" . org-agenda-todo)
+         ("C-c n a s" . org-agenda-schedule)
+         ("C-c n a d" . org-agenda-deadline)
+         ("C-c n a r" . org-agenda-refile)
+         ("C-c n a l" . org-agenda-log-mode)
+         ("C-c n a w" . org-agenda-week-view)
+         ("C-c n a m" . org-agenda-month-view)
+         ("C-c n a y" . org-agenda-year-view)
+         ("C-c n a v" . org-agenda-previous-item)
+         ("C-c n a n" . org-agenda-next-item))
   :after ob-d2
   :config
   (custom-set-variables
@@ -249,11 +261,6 @@
   (goto-char (point-min))
   (org-id-get-create)
   (goto-char (point-max)))
-
-(use-package! org-transclusion
-  :after org
-  :bind (("C-c n a a" . org-transclusion-add)
-         ("C-c n a t" . org-transclusion-mode)))
 
 (use-package! org-drill
   :config
